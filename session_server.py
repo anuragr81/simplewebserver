@@ -81,33 +81,8 @@ def stringify(input) : # removed unicode or other coding
   return parsed
 
 
-LOGON_OK=0
-INVALID_PASSWORD=1
-INVALID_USER=2
-USERFILE="users.lst"
-
-def logonid(sessions,user,password):
-   '''
-     Opens File everytime to avoid restarting
-     server on edit of the user-pass file
-   '''
-   userdict={}
-   for line in open(os.path.abspath(os.path.dirname(sys.argv[0]))+"/"+USERFILE).readlines():
-      sl=line.split()
-      if len(sl) > 1 : 
-          userdict[sl[0]]=sl[1]
-      else:
-          logger.error("File:"+fname+" - Skippped Invalid Line:"+line)
-   if user in list(userdict.keys()) : 
-      if password == userdict[user] : 
-          return {'status':LOGON_OK,'id':str(user+password)}
-      else : 
-          return {'status':INVALID_PASSWORD}
-   else : 
-      return {'status':INVALID_USER}
-
 '''
-   Request Type = 2 means a Sync Request
+   Request Type = 1 means a Sync Request
 '''
 def sync_refresh(request_data,fs,sess) :  
    print(("type(request_data)="+str(type(request_data))+ " request_data: "+str(request_data)))
@@ -118,8 +93,9 @@ def sync_refresh(request_data,fs,sess) :
    ret['response_data']={};
    return ret;
 
+
 '''
-   Request Type = 1 means an Async Request
+   Request Type = 2 means an Async Request
 '''
 def async_refresh(request_data,fs,sess) :
    parsed_request_data =  stringify(request_data)
@@ -129,32 +105,13 @@ def async_refresh(request_data,fs,sess) :
    ret['response_data']={};
    return ret;
 
-'''
-  Request Type = 0 means a logon request
-'''
-def accept_logon(request_data,fs,sess):
-  print(("type(request_data)="+str(type(request_data))+str(" request_data: ")+str(request_data)))
-  parsed_request_data =  stringify(request_data)
-  logger.debug("accept_logon:"+str(parsed_request_data))
-  iserror=True
-  for entry in parsed_request_data:
-    if 'user' in list(entry.keys()) and 'password' in list(entry.keys()) : 
-       lr = logonid(sess,entry['user'],entry['password'])
-       if lr['status'] == LOGON_OK:
-          ret= dict()
-          ret['response_type']=1
-          ret['response_data']={'sessionid':lr['id']}
-          return ret
 
-  ret=dict()
-  ret['response_type']=0
-  ret['response_data']={};
-  return ret
 
 def handleRequest(req,fs,sess):
    request_type_key='request_type' 
-   data_key='request_data' 
-   handlers_map = { 0 : accept_logon , 1 : sync_refresh , 2 : async_refresh }
+   data_key='request_data'
+   print ("handleRequest:"+str(req))
+   handlers_map = { 1 : sync_refresh , 2 : async_refresh }
    if data_key in req and request_type_key in req : 
         if req[request_type_key] in handlers_map :
              return json.dumps(handlers_map[req[request_type_key]](req[data_key],fs,sess))
@@ -234,7 +191,7 @@ class HTTPHandler(http.server.SimpleHTTPRequestHandler):
         except:
             traceback.print_exc(file=sys.stdout)
             result = 'error'
-        self.wfile.write(result)
+        self.wfile.write(result.encode())
 
 
 def run_server(server):

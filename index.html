@@ -10,9 +10,10 @@
 
 $("button").click(function(){
     requestData = {
-        name: "Donald Duck",
-        city: "Duckburg"
+        "request_data": [],
+        "request_type" : 2
     }
+    
     $.post("http://localhost:22002/",
         JSON.stringify(requestData),
     function(data, status){
