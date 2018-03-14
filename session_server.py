@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import random
 
 import threading,time
 import sys,errno,traceback,os,re
@@ -81,6 +82,11 @@ def stringify(input) : # removed unicode or other coding
   return parsed
 
 
+def get_random_data():
+  ''' generates random data for demo '''
+  return [random.uniform(0,1) for x in range(0,20)]
+
+
 '''
    Request Type = 1 means a Sync Request
 '''
@@ -90,7 +96,7 @@ def sync_refresh(request_data,fs,sess) :
    logger.debug("sync_refresh:"+str(parsed_request_data))
    ret=dict()
    ret['response_type']=1;
-   ret['response_data']={};
+   ret['response_data']=[];
    return ret;
 
 
@@ -102,7 +108,7 @@ def async_refresh(request_data,fs,sess) :
    logger.debug("async_refresh:"+str(parsed_request_data))
    ret=dict()
    ret['response_type']=1;
-   ret['response_data']={};
+   ret['response_data']=get_random_data();
    return ret;
 
 
