@@ -15,7 +15,7 @@ import logging,locallog
 
 logger = locallog.Logger("session_server").logger
 
-PORT = 22002
+PORT = 8080
 FILE="index.html"
 
 ############## EXCEPTIONS ####################
@@ -84,7 +84,7 @@ def stringify(input) : # removed unicode or other coding
 
 def get_random_data():
   ''' generates random data for demo '''
-  return [random.uniform(0,1) for x in range(0,20)]
+  return [random.uniform(0,1) for x in range(0,100)]
 
 
 '''
@@ -215,6 +215,6 @@ def start_server(HOSTNAME):
 
 
 if __name__ == "__main__":
-    HOSTNAME="localhost"
+    HOSTNAME="192.168.171.129"
     start_server(HOSTNAME)
 

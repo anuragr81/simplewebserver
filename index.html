@@ -9,9 +9,21 @@
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.21/c3.min.js"></script>
 
+<table align="center">
+    <tr>
+      
+        <div id="chart"/>
+      
+    </tr>
 
-<button type="button">Load</button>
-<div id="chart"></div>
+    <tr>
+        <td align="center">
+            <button type="button">Request Data</button>            
+        </td>
+    </tr>
+</table>
+
+
 <script>
 
 $("button").click(function(){
@@ -20,8 +32,8 @@ $("button").click(function(){
         "request_type" : 2
     }
 
-    function displayData(data) { 
-        colData = ['data'].concat(data)       
+    function chart_data(data) { 
+        colData = ['step'].concat(data)       
         
         c3.generate({
           bindto: '#chart',
@@ -31,13 +43,10 @@ $("button").click(function(){
          });
     }
 
-    $.post("http://localhost:22002/",
+    $.post("http://192.168.171.129:8080/",
         JSON.stringify(requestData),
-    function(data, status){       
-        
-        displayData(data['response_data'])
-        //alert("Data: " + data['response_data']+ "\nStatus: " + status);
-
+    function(data, status){              
+        chart_data(data['response_data'])
     });
 }); 
 
