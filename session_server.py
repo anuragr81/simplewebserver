@@ -33,6 +33,8 @@ class InvalidRequestException (Exception):
 def reply_type(path) : 
    #Check the file extension required and
    #set the right mime type
+
+   print ("reply_type - path="+str(path))
    if path == "/": 
      retpath = FILE
    else :
@@ -208,7 +210,7 @@ class HTTPHandler(http.server.SimpleHTTPRequestHandler):
         (sendReply,mimetype,path)=reply_type(main_path)
 
         if sendReply : 
-          resp=open(os.path.abspath(os.path.dirname(sys.argv[0]))+"/"+path).read()
+          resp=open(os.path.abspath(os.path.dirname(sys.argv[0]))+"/"+path).read().encode()
           self.send_response(200)
           self.send_header("Content-type",mimetype)
           self.send_header("Content-length", len(resp))
