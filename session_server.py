@@ -218,10 +218,12 @@ class HTTPHandler(http.server.SimpleHTTPRequestHandler):
           self.wfile.write(resp)
 
 
+
     def do_POST(self):
-        length = int(self.headers.getheader('content-length'))        
-        json_request_data = self.rfile.read(length)
-        #logger.debug("Request Arrived: \""+str(json_request_data)+"\"")
+        length = int(self.headers.get_all('content-length')[0])        
+        
+        json_request_data = self.rfile.read(length).decode()
+        logger.debug("Request Arrived: \""+str(json_request_data)+"\"")
         try:
             #logger.debug("Parsed json:"+str(json.loads(json_request_data)))
             result = handleRequest(json.loads(json_request_data),self.filestore,self.sessions)

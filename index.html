@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- google CDN for jquery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<button type="button">Load</button>
+
 <script>
-$(document).ready(function(){
-    $("selector").hide();
-});
+
+$("button").click(function(){
+    requestData = {
+        name: "Donald Duck",
+        city: "Duckburg"
+    }
+    $.post("http://localhost:22002/",
+        JSON.stringify(requestData),
+    function(data, status){
+        alert("Data: " + data + "\nStatus: " + status);
+    });
+}); 
+
 </script>
 </head>
 <body>
 
-<p>This is a paragraph.</p>
-<p id="test">This is a paragraph with id="test".</p>
 
 </body>
 </html>
