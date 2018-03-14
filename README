@@ -1,6 +1,20 @@
+==
+DESCRIPTION
+==
+The server handles get and post requests and is bound to port 8080 by default.
 
-The server handles get and post requests and is bound to port 8080 by default. Please change this to the port that you intend to use. To change the port, you must change both the server's port and index.html's post-target.
+==
+CONFIGURATION
+==
+
+Please change this to the port that you intend to use. To change the port, you must change both the server's port and index.html's post-target.
 
 If you wish to avoid using the CDN URLs (due to lack of internet access for example), please download c3 and jquery and update the index.html for it to be ran on your browser.
+
+==
+RUNNING
+==
+To run the server, you can submit "python sessionserver.py" (use python 3.0) on the console and then point your browser to the IP:PORT the server is running on.
+
 
 
