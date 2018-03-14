@@ -1,0 +1,6 @@
+
+The server handles get and post requests and is bound to port 8080 by default. Please change this to the port that you intend to use. To change the port, you must change both the server's port and index.html's post-target.
+
+If you wish to avoid using the CDN URLs (due to lack of internet access for example), please download c3 and jquery and update the index.html for it to be ran on your browser.
+
+
